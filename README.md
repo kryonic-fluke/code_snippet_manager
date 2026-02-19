@@ -109,7 +109,7 @@ This is the easiest and most reliable way to run the project locally. It ensures
 
 1.  **Clone the repository:**
     ```sh
-    git clone https://github.com/your-username/code-snippet-manager.git
+    git clone https://github.com/kryonic-fluke/code-snippet-manager.git
     cd code-snippet-manager
     ```
 
@@ -152,7 +152,7 @@ If you prefer not to use Docker, you can run the project natively on your machin
 
 1.  **Clone and install dependencies:**
     ```sh
-    git clone https://github.com/your-username/code-snippet-manager.git
+    git clone https://github.com//kryonic-fluke/code-snippet-manager.git
     cd code-snippet-manager
     npm install
     ```
