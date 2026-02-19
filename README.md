@@ -7,7 +7,7 @@ CodeStash AI is a full-stack application designed to be an intelligent code vaul
 
 ## Live Demo
 
-**[CodeStash]** (https://codestashin.netlify.app)
+**[CodeStash]**(https://codestashin.netlify.app)
 
 <br>
 
