@@ -54,32 +54,35 @@ export  const updateSnippet = async (id: string, updates: Partial<CodeSnippetPay
 
 export const deleteSnippet = async (id: string): Promise<void> => {
   const { error } = await supabase.from("codesnippet").delete().eq("id", id);
-
   if (error) {
     console.error("Error deleting snippet from Supabase:", error);
     throw new Error(error.message); 
   }
-
   return;
 };
 
 
+
+
 export const invokeEmbedFunction = async (inputText: string): Promise<number[]> => {
-  console.log("inputtext invked fn",inputText);
+  console.log("inputext invoked fn",inputText);
   
   const { data, error } = await supabase.functions.invoke('embed', {
     body: JSON.stringify({inputText}),
   });
-  if (error) console.error("Error invoking embed function:", error.message);
-  ;
-  return data.embedding;
+ if (error) {
+    console.error("Error invoking embed function:", error.message);
+    throw new Error(error.message); 
+  }
+  
+  return data?.embedding;
 }
 
 export const matchCodeSnippets = async (embedding_vectors: number[]): Promise<SnippetSearchResult[]> => {
 
   const { data, error } = await supabase.rpc('match_code_snippets', {
     query_embedding: embedding_vectors,
-    match_threshold: 0.4,
+    match_threshold: 0.55,
     match_count: 5,
   });
   if (error) throw error;

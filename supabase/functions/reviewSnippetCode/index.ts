@@ -1,36 +1,39 @@
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { GoogleGenerativeAI } from "https://esm.sh/@google/generative-ai@0.1.3";
+import { GoogleGenerativeAI } from "https://esm.sh/@google/generative-ai@0.21.0";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
 const API_KEY = Deno.env.get("GOOGLE_API_KEY");
+if (!API_KEY) {
+  throw new Error("Missing GOOGLE_API_KEY environment variable.");
+}
 
-serve(async (req) => {
+const genAI = new GoogleGenerativeAI(API_KEY);
+const model = genAI.getGenerativeModel({ model: "gemini-3-flash-preview" }); 
+
+Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
   }
 
   try {
-    if (!API_KEY) {
-      throw new Error("Google_API_KEY is not set.");
+    let reqBody;
+    try {
+        reqBody = await req.json();
+    } catch {
+        throw new Error("Invalid or missing JSON Payload Sent."); 
     }
+    
+    const { code } = reqBody;
 
-    const data = await req.json();
-    console.log("data", data);
-
-    const codeToReview = data.code;
-
-    if (!codeToReview) {
-      throw new Error("No 'codeToReview' provided in the request body.");
+    if (typeof code !== "string" || code.trim() === "") {
+        return new Response(JSON.stringify({ error: "No 'code' provided in the request body." }), {
+            status: 400,
+            headers: { ...corsHeaders, "Content-Type": "application/json" }
+        });
     }
-
-    const genAI = new GoogleGenerativeAI(API_KEY);
-
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
     const prompt = `
 You are an expert AI code reviewer. Your tone is professional and constructive.
@@ -49,28 +52,23 @@ Do not provide a long, unstructured wall of text. Keep the analysis concise and 
 
 Here is the code to review:
 \`\`\`
-${codeToReview}
+${code}
 \`\`\`
 `;
     const result = await model.generateContent(prompt);
-    const response = result.response;
-    const reviewText = response.text();
+    
+    const reviewText = result.response.text();
 
     return new Response(JSON.stringify({ review: reviewText }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
+      status: 200
     });
+
   } catch (error) {
-    const errormsg =
-      error instanceof Error ? error.message : "An unknown error occured";
+    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
+    console.error("Error in reviewSnippetCode function Caught Internally:", errorMessage);
 
-    console.log("Error in reviewSnippetCode function:", errormsg, error);
-
-    return new Response(
-      JSON.stringify({
-        error: "An error occurred in the reviewSnippetCode function.",
-        details: errormsg,
-      }),
-      {
+    return new Response(JSON.stringify({ error: "Failed code evaluation process." }), {
         status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       }

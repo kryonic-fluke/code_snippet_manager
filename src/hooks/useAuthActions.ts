@@ -1,6 +1,5 @@
 import { supabase } from '../supabaseClient';
 import { useAuth } from '../context/AuthContext';
-
 export const useAuthActions = () => {
   const { signOut: contextSignOut } = useAuth();
 const redirectUrl = import.meta.env.VITE_SITE_URL;
@@ -20,10 +19,8 @@ const redirectUrl = import.meta.env.VITE_SITE_URL;
       alert(`Error signing in: ${errorMessage}`);
     }
   };
-
   const signOut = async () => {
     await contextSignOut();
   };
-
   return { signInWithOAuth, signOut };
 };

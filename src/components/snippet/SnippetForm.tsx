@@ -8,7 +8,7 @@ import { useAuth } from "../../context/AuthContext";
 import { invokeEmbedFunction } from "../../services/supabase";
 
 import { useInsertSnippet } from "../../hooks/useInsertSnippet";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
 import { LoadingSpinner } from "../../ui/LoadingSpinner";
 interface SnippetFormProps {
   initialSnippet?: CodeSnippet;
@@ -18,7 +18,7 @@ interface SnippetFormProps {
 
 export const SnippetForm: React.FC<SnippetFormProps> = ({
   initialSnippet,
-  onCloseModal
+  onCloseModal,
 }) => {
   const { user } = useAuth();
 
@@ -96,10 +96,10 @@ export const SnippetForm: React.FC<SnippetFormProps> = ({
               toast.success("Snippet updated successfully!");
               onCloseModal?.();
             },
-             onError: (err) => {
+            onError: (err) => {
               toast.error(`Failed to update: ${err.message}`);
             },
-          }
+          },
         );
       } else {
         insertSnippet(
@@ -113,7 +113,7 @@ export const SnippetForm: React.FC<SnippetFormProps> = ({
               reset();
               onCloseModal?.();
             },
-          }
+          },
         );
       }
     } catch (error) {
@@ -122,7 +122,8 @@ export const SnippetForm: React.FC<SnippetFormProps> = ({
       if (error instanceof Error) {
         toast.error(`An error occurred: ${error.message}`);
       } else {
- toast.error("An unexpected error occurred. Please check the console.");      }
+        toast.error("An unexpected error occurred. Please check the console.");
+      }
     }
   };
 
@@ -131,15 +132,15 @@ export const SnippetForm: React.FC<SnippetFormProps> = ({
       ? "Updating..."
       : "Save Changes"
     : isSubmitting || isInserting
-    ? "Creating..."
-    : "Create Snippet";
+      ? "Creating..."
+      : "Create Snippet";
 
   const isLoading = isSubmitting || isInserting || isUpdating;
   const currentError = insertError
     ? insertError
     : updateError
-    ? updateError
-    : null;
+      ? updateError
+      : null;
 
   if (!user?.id) {
     return (
@@ -212,14 +213,14 @@ export const SnippetForm: React.FC<SnippetFormProps> = ({
         >
           Language
         </label>
-     <input
-  id="language"
-  type="text"
-  {...register("language",{ required: "Language is required" })}
-  className="   border    rounded    w-full    py-2    px-3    leading-tight    focus:ring    focus:ring-zinc-400    focus:ring-opacity-20    focus:outline-none    bg-zinc-800    text-zinc-200    text-md    border-gray-600 "
-  placeholder="e.g., react, hooks, state, frontend"
-  disabled={isLoading}
-/>
+        <input
+          id="language"
+          type="text"
+          {...register("language", { required: "Language is required" })}
+          className="   border    rounded    w-full    py-2    px-3    leading-tight    focus:ring    focus:ring-zinc-400    focus:ring-opacity-20    focus:outline-none    bg-zinc-800    text-zinc-200    text-md    border-gray-600 "
+          placeholder="e.g., react, hooks, state, frontend"
+          disabled={isLoading}
+        />
         {errors.language && (
           <p className="text-red-500 text-xs italic mt-1">
             {errors.language.message}
@@ -257,40 +258,34 @@ export const SnippetForm: React.FC<SnippetFormProps> = ({
         >
           Tags (Comma-separated, Optional)
         </label>
-       <input
-  id="tags"
-  type="text"
-  {...register("tags")}
-  className="    shadow     appearance-none     border     rounded     w-full     py-2     px-3     leading-tight     focus:outline-none     bg-zinc-800     text-zinc-200     text-md     border-gray-600        focus:ring     focus:ring-zinc-300     focus:ring-opacity-20  "
-  placeholder="e.g., react, hooks, state, frontend"
-  disabled={isLoading}
-/>
+        <input
+          id="tags"
+          type="text"
+          {...register("tags")}
+          className="    shadow     appearance-none     border     rounded     w-full     py-2     px-3     leading-tight     focus:outline-none     bg-zinc-800     text-zinc-200     text-md     border-gray-600        focus:ring     focus:ring-zinc-300     focus:ring-opacity-20  "
+          placeholder="e.g., react, hooks, state, frontend"
+          disabled={isLoading}
+        />
       </div>
 
       <div className="flex  justify-left center gap-4 ">
-  <button
-    type="submit"
-    disabled={isLoading}
-    className="   flex items-center justify-center  border-zinc-500 border-2 hover:bg-zinc-800 hover:text-zinc-400    min-h-[40px] text-zinc-400 font-bold    py-2 px-4 rounded    focus:outline-none focus:shadow-outline    disabled:opacity-50 disabled:cursor-not-allowed
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="   flex items-center justify-center  border-zinc-500 border-2 hover:bg-zinc-800 hover:text-zinc-400    min-h-[40px] text-zinc-400 font-bold    py-2 px-4 rounded    focus:outline-none focus:shadow-outline    disabled:opacity-50 disabled:cursor-not-allowed
     "
-  >
-    {isLoading ? (
-      <LoadingSpinner sizeClass="h-5 w-5" />
-    ) : (
-      buttonText
-    )}
-  </button>
+        >
+          {isLoading ? <LoadingSpinner sizeClass="h-5 w-5" /> : buttonText}
+        </button>
 
-      <button
-        type="button"
-        onClick={onCloseModal}
-        className="border-zinc-500 border-2 ml-4 hover:bg-zinc-800 hover:text-zinc-400    text-zinc-400 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        Cancel
-      </button>
+        <button
+          type="button"
+          onClick={onCloseModal}
+          className="border-zinc-500 border-2 ml-4 hover:bg-zinc-800 hover:text-zinc-400    text-zinc-400 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          Cancel
+        </button>
       </div>
-
-   
 
       {currentError && (
         <p className="text-red-500 text-sm mt-3">

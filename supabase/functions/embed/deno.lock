@@ -13,6 +13,8 @@
     "https://deno.land/std@0.168.0/async/tee.ts": "3a47cc4e9a940904fd4341f0224907e199121c80b831faa5ec2b054c6d2eff5e",
     "https://deno.land/std@0.168.0/http/server.ts": "e99c1bee8a3f6571ee4cdeb2966efad465b8f6fe62bec1bdb59c1f007cc4d155",
     "https://esm.sh/@google/generative-ai@0.1.3": "0cab932def45dbc6a4e446639cdc3f0be279ea97e42e0a98bf51c9b4f746f224",
-    "https://esm.sh/@google/generative-ai@0.1.3/denonext/generative-ai.mjs": "d22db5878fd790fd8e29b33efaec4291e73779325f472f9552a853616a8e8aed"
+    "https://esm.sh/@google/generative-ai@0.1.3/denonext/generative-ai.mjs": "d22db5878fd790fd8e29b33efaec4291e73779325f472f9552a853616a8e8aed",
+    "https://esm.sh/@google/generative-ai@0.21.0": "c50ac2729c07a30e82649ed868dbd424d8c37121206b74ded320559908856ff1",
+    "https://esm.sh/@google/generative-ai@0.21.0/denonext/generative-ai.mjs": "290868c99575b3613f63b6ae2bb1a567525ecc15712b0de7d05773045106eaa2"
   }
 }

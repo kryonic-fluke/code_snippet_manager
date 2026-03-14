@@ -23,9 +23,7 @@ export const SnippetCard = ({ snippet }: SnippetCardProps) => {
   const handleDelete = (e: React.MouseEvent,snippetId: string) => {
     e.stopPropagation();
     setIsOpend(true);
-
-
-setSnippetToDelete(snippetId); 
+  setSnippetToDelete(snippetId); 
  };
 
   const handlePin = (e: React.MouseEvent) => {
@@ -102,8 +100,7 @@ setSnippetToDelete(snippetId);
                 </button>
               </Modal.Open>
 
-              <button
-                onClick={(e) => handleDelete(e, snippet.id)}
+              <button onClick={(e) => handleDelete(e, snippet.id)}
                 className=" border-zinc-400 transition-colors duration-350 ease-in-out px-2 border-2 hover:text-red-500 rounded-lg font-semibold"
               >
                 Remove
